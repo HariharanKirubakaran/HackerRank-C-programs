@@ -1,0 +1,16 @@
+#include <stdio.h>
+#include <string.h>
+#include <math.h>
+#include <stdlib.h>
+
+int main() {
+	
+    int n,rem=0;
+    scanf("%d", &n);
+    while(n>=1){
+        rem=rem+n%10; // adding last number to zero iniatially and adding the resultant number with the future last number of the reduced digits.
+        n/=10; // reducing the digit 
+    }
+    printf("%d",rem);
+    return 0;
+}
