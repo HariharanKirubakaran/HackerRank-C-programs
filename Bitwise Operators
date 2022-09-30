@@ -1,0 +1,110 @@
+/***************************************************************************************************************
+first create array of n
+second create three array for and,or and xor where array length = (n-1)+(n-2)+(n-3)+......+1
+Third perform and,or and xor operations of first array and store it in newly created arrays
+Then find the max of newly created arrays
+If:(max == k-1 or max < k-1) print max
+else: call one function which give suitable solution to print next value
+***************************************************************************************************************/
+
+#include <stdio.h>
+#include <string.h>
+#include <math.h>
+#include <stdlib.h>
+
+void calculate_the_maximum(int n, int k);
+int max_arr(int arrx[],int l); // Function to find the maximum element in an array
+void max_val_less(int max_and,int l,int arr_and[],int k); // Function to be called when the max value of the and/or/xor array is greater than that of the input k value
+
+void max_val_less(int max_and,int l,int arr_and[],int k){
+    max_and-=1;
+    for(int i=0;i<l;i++){
+        if((arr_and[i]==max_and)&&arr_and[i]<=k-1){
+            printf("%d\n",arr_and[i]);
+            l=0;
+            break;
+        }
+    }
+    if(l!=0){
+        if(max_and!=0){
+            max_val_less(max_and,l,arr_and,k);
+        }
+        else{
+            printf("%d\n",max_and);
+        }
+    }
+}
+
+int max_arr(int arrx[], int l){
+    int MAX = arrx[0];
+    for(int i=0;i<l;i++){
+        if(arrx[i]>MAX){
+            MAX = arrx[i];
+        }
+    }
+    return MAX;
+}
+
+void calculate_the_maximum(int n, int k) {
+  int arr_n[n],i;
+  for(i=0;i<n;i++){
+      arr_n[i]=i+1; // Size of operations storing array
+  }
+  int m=n-1;
+  int new_arrlen;
+  new_arrlen = m*(m+1)*0.5;
+  int arr_and[new_arrlen],arr_or[new_arrlen],arr_xor[new_arrlen],v=0;
+  for(i=0;i<n;i++){
+      for(int j=i+1;j<n;j++){
+          arr_and[v] = arr_n[i]&arr_n[j];
+          v++;
+      }
+  }
+  v=0;
+  for(i=0;i<n;i++){
+      for(int j=i+1;j<n;j++){
+          arr_or[v] = arr_n[i]|arr_n[j];
+          v++;
+      }
+  }
+  v=0;
+  for(i=0;i<n;i++){
+      for(int j=i+1;j<n;j++){
+          arr_xor[v] = arr_n[i]^arr_n[j];
+          v++;
+      }
+  }
+  int l = sizeof(arr_and)/sizeof(arr_and[0]);
+  int max_and = max_arr(arr_and,l);
+  int max_or = max_arr(arr_or,l);
+  int max_xor = max_arr(arr_xor,l);
+    // Printing required value from 'And' operated array
+    if(max_and == k-1 || max_and < k-1 ){
+        printf("%d\n",max_and);
+        
+    }
+    else if(max_and>=k-1){
+        max_val_less(max_and,l,arr_and,k);
+    }
+    // Printing required value from 'Or' operated array
+    if(max_or == k-1 || max_or < k-1 ){
+        printf("%d\n",max_or);
+    }
+    else if(max_or>k-1){
+        max_val_less(max_or,l,arr_or,k);
+    }
+    //Printing required value from 'Xor' operated array
+    if(max_xor == k-1 || max_xor < k-1 ){
+        printf("%d\n",max_xor);
+    }
+    else if(max_xor>k-1){
+        max_val_less(max_xor,l,arr_xor,k);
+    }
+}
+
+int main(){
+    int n, k;
+    scanf("%d %d", &n, &k);
+    calculate_the_maximum(n, k);
+    return 0;
+}
