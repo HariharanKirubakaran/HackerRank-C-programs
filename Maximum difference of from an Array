@@ -1,0 +1,30 @@
+/**Finding out the pair from a array which will produce the maximum difference between them.**/
+
+#include<stdio.h>
+#include<stdlib.h>
+int main()
+{
+    int l;
+    printf("Enter the length of the array: ");
+    scanf("%d",&l);
+    double arr[l]; // Declaring input array
+    printf("Enter %d values for the array,\n",l);
+    for(int i=0;i<l;i++){
+        scanf("%lf",&arr[i]);
+    }
+    int diff_arr_l = (l-1)*(l)*0.5; // finding out the length of the array to store the difference of pairs.
+    double diff_arr[diff_arr_l]; // initializing array to store the difference.
+    int MAX = 0,e1,e2; // MAX is the reference to find the maximum value ; e1 and e2 are the variable to store the elements which produce maximum difference.
+    for(int j=0;j<l;j++){
+        for(int k=j+1;k<l;k++){
+            diff_arr[diff_arr_l]=abs(arr[j]-arr[k]);
+            if(diff_arr[diff_arr_l]>MAX){
+                MAX = diff_arr[diff_arr_l];
+                e1 = arr[j];
+                e2 = arr[k];
+            }
+        }
+    }
+    printf("(%d,%d) is the pair with greatest difference.",e1,e2);
+    return 0;
+}
